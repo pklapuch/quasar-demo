@@ -21,6 +21,16 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: '/quoteapp',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('pages/QuoteAppPage.vue'),
+      },
+    ],
+  },
 
   // Always leave this as last one,
   // but you can also remove it

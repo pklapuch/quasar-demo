@@ -1,6 +1,11 @@
 <template>
   <q-page class="flex flex-center text-white">
-    <q-btn to="counterapp" label="Counter App" size="xl" />
+    <div class="row">
+      <q-btn to="counterapp" label="Counter App" size="xl" />
+    </div>
+    <div class="row">
+      <q-btn to="quoteapp" label="Quote App" size="xl" />
+    </div>
   </q-page>
 </template>
 
