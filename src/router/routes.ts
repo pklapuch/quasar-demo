@@ -31,6 +31,16 @@ const routes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path: '/todoapp',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('pages/ToDoAppPage.vue'),
+      },
+    ],
+  },
 
   // Always leave this as last one,
   // but you can also remove it

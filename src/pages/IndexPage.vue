@@ -6,6 +6,9 @@
     <div class="row">
       <q-btn to="quoteapp" label="Quote App" size="xl" />
     </div>
+    <div class="row">
+      <q-btn to="todoapp" label="ToDo App" size="xl" />
+    </div>
   </q-page>
 </template>
 
