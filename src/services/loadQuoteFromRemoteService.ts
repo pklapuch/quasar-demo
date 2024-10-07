@@ -6,7 +6,7 @@ type Headers = {
   [key: string]: string;
 };
 
-class InvalidResponseRepresentation extends Error {
+export class InvalidResponseRepresentationError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'InvalidResponseRepresentation';
@@ -39,17 +39,23 @@ function mapHeaders(
 
 // Returns: String
 // Throws: InvalidResponseRepresentation Error
-function mapResponse(data: [string: any], status: number, headers: Headers) {
+export function mapResponse(
+  data: [string: any],
+  status: number,
+  headers: Headers
+) {
   console.log(status);
   console.log(data);
   console.log(headers);
 
   if (status != 200) {
-    throw new InvalidResponseRepresentation('Invalid status code: ' + status);
+    throw new InvalidResponseRepresentationError(
+      'Invalid status code: ' + status
+    );
   }
 
   if (data.length != 1) {
-    throw new InvalidResponseRepresentation(
+    throw new InvalidResponseRepresentationError(
       'Invalid model count: ' + data.length
     );
   }
