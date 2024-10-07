@@ -23,43 +23,37 @@
 Imports
 */
 import { ref } from 'vue';
-import { api } from 'boot/axios';
 import { useQuasar } from 'quasar';
-
+import { loadQuoteService } from 'src/DIContainer/QuoteAppContainer';
 /*
 quasar
 */
-
 const $q = useQuasar();
 
 /*
 data
 */
-const remoteData = ref(null);
 const isLoading = ref(false);
 const title = ref('Quote of the day');
 const quoteOfTheDay = ref('');
 
-function loadData() {
+async function loadData() {
   isLoading.value = true;
 
-  api
-    .get('https://api.breakingbadquotes.xyz/v1/quotes')
-    .then((response) => {
-      remoteData.value = response.data;
-      quoteOfTheDay.value = 'QUOTE: ' + response.data[0].quote;
-      isLoading.value = false;
-    })
-    .catch(() => {
-      $q.notify({
-        color: 'negative',
-        position: 'top',
-        message: 'Loading failed',
-        icon: 'report_problem',
-      });
-
-      quoteOfTheDay.value = 'ERROR!';
-      isLoading.value = false;
+  try {
+    const quote = await loadQuoteService();
+    quoteOfTheDay.value = 'QUOTE: ' + quote;
+    isLoading.value = false;
+  } catch (error) {
+    $q.notify({
+      color: 'negative',
+      position: 'top',
+      message: 'Loading failed',
+      icon: 'report_problem',
     });
+
+    isLoading.value = false;
+    quoteOfTheDay.value = error;
+  }
 }
 </script>

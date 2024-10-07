@@ -9,6 +9,9 @@
     <div class="row">
       <q-btn to="todoapp" label="ToDo App" size="xl" />
     </div>
+    <div class="row">
+      <q-btn to="testcomponentapp" label="Test App" size="xl" />
+    </div>
   </q-page>
 </template>
 

@@ -54,53 +54,21 @@
 Imports
 */
 
-import { reactive } from 'vue';
 import { watch } from 'vue';
 import { useQuasar } from 'quasar';
+import {
+  data,
+  increaseCounter,
+  decreaseCounter,
+  resetCounter,
+  handlePan,
+} from './Counter';
 
 /*
 quasar
 */
 
 const $q = useQuasar();
-
-/*
-Data
-*/
-
-const data = reactive({
-  counter: 0,
-  name: '',
-});
-
-/*
-counter methods
-*/
-
-const increaseCounter = () => {
-  data.counter++;
-};
-
-const decreaseCounter = () => {
-  if (data.counter == 0) {
-    return;
-  }
-
-  data.counter--;
-};
-
-const resetCounter = () => {
-  data.counter = 0;
-};
-
-/*
-Touch Pan
-*/
-
-const handlePan = (e) => {
-  if (e.delta.y < 0) increaseCounter();
-  else decreaseCounter();
-};
 
 try {
   const savedData = $q.localStorage.getItem('data');
