@@ -42,18 +42,26 @@ async function loadData() {
 
   try {
     const quote = await loadQuoteService();
-    quoteOfTheDay.value = 'QUOTE: ' + quote;
-    isLoading.value = false;
+    presentQuote(quote);
   } catch (error) {
-    $q.notify({
-      color: 'negative',
-      position: 'top',
-      message: 'Loading failed',
-      icon: 'report_problem',
-    });
-
-    isLoading.value = false;
-    quoteOfTheDay.value = error;
+    presentError(error);
   }
+
+  isLoading.value = false;
+}
+
+function presentQuote(quote) {
+  quoteOfTheDay.value = 'QUOTE: ' + quote;
+}
+
+function presentError(error) {
+  $q.notify({
+    color: 'negative',
+    position: 'top',
+    message: 'Loading failed',
+    icon: 'report_problem',
+  });
+
+  quoteOfTheDay.value = error;
 }
 </script>
