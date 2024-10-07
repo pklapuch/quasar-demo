@@ -14,9 +14,4 @@ export const mockAxiosLoadQuoteFromRemoteWithValidQuote = async function () {
   ];
 
   mock.onGet('/v1/quotes').reply(200, json);
-
-  // Access requeest paramters
-  // mock.onGet('/v1/quotes').reply(function (config) {
-  //   return [200, { quote: config.baseURL }];
-  // });
 };

@@ -1,12 +1,17 @@
 <template>
-  <q-page> Hello World: Test component </q-page>
+  <q-page>
+    <div class="row">Hello World: Test component</div>
+    <div class="row">
+      <TestComponent text="One" value="Two" />
+    </div>
+  </q-page>
 </template>
 
 <script setup>
 /*
 Imports
 */
-// import { TestComponent } from 'components/TestComponent.vue';
+import { TestComponent } from 'components/TestComponent.vue';
 
 /*
 Definition
