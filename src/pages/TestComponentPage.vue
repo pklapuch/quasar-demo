@@ -2,7 +2,11 @@
   <q-page>
     <div class="row">Hello World: Test component</div>
     <div class="row">
-      <TestComponent text="One" value="Two" />
+      <TestComponent
+        title="Parent Title"
+        value="Parent Value"
+        :items="loadData"
+      />
     </div>
   </q-page>
 </template>
@@ -11,7 +15,11 @@
 /*
 Imports
 */
-import { TestComponent } from 'components/TestComponent.vue';
+import TestComponent from 'components/TestComponent.vue';
+
+async function loadData() {
+  return ['One', 'Two', 'Three'];
+}
 
 /*
 Definition

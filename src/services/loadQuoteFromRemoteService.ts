@@ -6,6 +6,13 @@ type Headers = {
   [key: string]: string;
 };
 
+class InvalidResponseRepresentation extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'InvalidResponseRepresentation';
+  }
+}
+
 // Returns: String
 // Throws: any Error
 export const loadQuoteFromRemoteService = async function () {
@@ -38,7 +45,13 @@ function mapResponse(data: [string: any], status: number, headers: Headers) {
   console.log(headers);
 
   if (status != 200) {
-    throw Error('Invalid Response Representation');
+    throw new InvalidResponseRepresentation('Invalid status code: ' + status);
+  }
+
+  if (data.length != 1) {
+    throw new InvalidResponseRepresentation(
+      'Invalid model count: ' + data.length
+    );
   }
 
   return data[0].quote;
