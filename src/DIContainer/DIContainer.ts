@@ -1,6 +1,6 @@
-import { executeHttpRequestWithAxios } from 'src/services/HTTPClient';
 import { registerLoadQuoteService } from './QuoteAppContainer';
 import { registerHttpClient } from './CoreContainer';
+import { executeHttpRequestWithAxios } from 'src/services/HTTPClient';
 import { loadQuoteFromRemote } from 'src/services/LoadQuoteFromRemoteService';
 
 export const registerDependencies = function () {

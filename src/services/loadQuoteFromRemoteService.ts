@@ -5,7 +5,7 @@ import { mapResponse } from './LoadQuoteResponseMapper';
 
 // Returns: Promise<String>
 // Throws: any Error
-export const loadQuoteFromRemote = async function () {
+export async function loadQuoteFromRemote() {
   try {
     const request = mapRequest();
     const response = await httpClient(request);
@@ -13,4 +13,4 @@ export const loadQuoteFromRemote = async function () {
   } catch (error) {
     throw error;
   }
-};
+}
