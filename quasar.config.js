@@ -54,7 +54,9 @@ module.exports = configure(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      env: {
+        API_BASE_URL: 'https://api.breakingbadquotes.xyz',
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,

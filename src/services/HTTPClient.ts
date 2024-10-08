@@ -31,14 +31,18 @@ export async function executeHttpRequestWithAxios(request: APIRequest) {
   }
 }
 
+const baseURL = process.env.API_BASE_URL;
+
 function logOutgoing(request: APIRequest) {
-  console.log('OUT Url: ' + request.url + ' (' + request.method + ')');
+  console.log(
+    'OUT Url: ' + baseURL + request.url + ' (' + request.method + ')'
+  );
   console.log('OUT Body: ' + JSON.stringify(request.body));
   console.log('OUT Headers: ' + JSON.stringify(request.headers));
 }
 
 function logIncoming(response: APIResponse, request: APIRequest) {
-  const url = request.url;
+  const url = baseURL + request.url;
   const method = request.method;
   const statusCode = response.statusCode;
 
@@ -48,6 +52,7 @@ function logIncoming(response: APIResponse, request: APIRequest) {
 }
 
 function logIncomingError(error: unknown, request: APIRequest) {
-  console.log('IN Url: ' + request.url + ' (' + request.method + ') - ERROR');
+  const url = baseURL + request.url;
+  console.log('IN Url: ' + url + ' (' + request.method + ') - ERROR');
   console.log('IN Error: ' + error);
 }
