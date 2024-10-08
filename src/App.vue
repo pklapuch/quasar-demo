@@ -4,13 +4,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import {
-  registerDependencies,
-  registerMockDependencies,
-} from './DIContainer/DIContainer';
+import { registerDependencies } from './DIContainer/DIContainer';
 
 registerDependencies();
-registerMockDependencies();
 
 export default defineComponent({
   name: 'App',

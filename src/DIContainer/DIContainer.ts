@@ -1,17 +1,21 @@
-import { loadQuoteFromRemoteService } from 'src/services/loadQuoteFromRemoteService';
+import { executeHttpRequestWithAxios } from 'src/services/HTTPClient';
 import { registerLoadQuoteService } from './QuoteAppContainer';
+import { registerHttpClient } from './CoreContainer';
+import { loadQuoteFromRemote } from 'src/services/LoadQuoteFromRemoteService';
 
 export const registerDependencies = function () {
-  registerLoadQuoteService(loadQuoteFromRemoteService);
+  registerHttpClient(executeHttpRequestWithAxios);
+  registerLoadQuoteService(loadQuoteFromRemote);
+  registerMockDependencies();
 };
 
 // MOCK
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { mockAxiosLoadQuoteFromRemoteWithValidQuote } from 'src/mockServices/axiosLoadQuoteFromRemoteMock';
+// import { mockAxiosLoadQuoteFromRemoteWithValidQuote } from 'src/mockServices/axiosLoadQuoteFromRemoteMock';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { loadQuoteMockService } from 'src/mockServices/loadQuoteMockService';
+// import { loadQuoteMockService } from 'src/mockServices/loadQuoteMockService';
 
 export function registerMockDependencies() {
   // registerLoadQuoteService(loadQuoteMockService);
