@@ -10,10 +10,10 @@
             label="Enter Email"
             rounded
             outlined
-            v-model="form.email.value"
+            v-model="form.email"
             @update:model-value="didUpdateEmail"
-            :error="form.email.isInvalidInput"
-            :error-message="form.email.errorMessage"
+            :error="!form.isEmailValid"
+            :error-message="form.emailError"
           >
             <template v-slot:prepend>
               <q-icon name="email"> </q-icon>
@@ -27,10 +27,10 @@
             class="q-mt-sm"
             rounded
             outlined
-            v-model="form.password.value"
+            v-model="form.password"
             @update:model-value="didUpdatePassword"
-            :error="form.password.isInvalidInput"
-            :error-message="form.password.errorMessage"
+            :error="!form.isPasswordValid"
+            :error-message="form.passwordError"
           >
             <template v-slot:prepend>
               <q-icon name="lock"> </q-icon>
@@ -54,55 +54,25 @@
   </q-page>
 </template>
 
-<script setup>
-import { validateEmail, validatePassword } from 'src/validation/LoginFormUtil';
-import { ref } from 'vue';
-
-const form = ref({
-  email: {
-    value: null,
-    required: true,
-  },
-  password: {
-    value: null,
-    required: true,
-  },
-});
-
-const didUpdateEmail = (newValue) => {
-  const validationResult = validateEmail(newValue);
-  form.value.email.isInvalidInput = validationResult.isInvalid;
-  form.value.email.errorMessage = validationResult.errorMessage;
-};
-
-const didUpdatePassword = (newValue) => {
-  const validationResult = validatePassword(newValue);
-  form.value.password.isInvalidInput = validationResult.isInvalid;
-  form.value.password.errorMessage = validationResult.errorMessage;
-};
-
-const isSubmitEnabled = () => {
-  const emailResult = validateEmail(form.value.email.value);
-  const passwordResult = validatePassword(form.value.password.value);
-  return !emailResult.isInvalid && !passwordResult.isInvalid;
-};
-
-const submit = () => {
-  if (!isSubmitEnabled()) {
-    return;
-  }
-
-  console.log('Submit');
-};
-</script>
-
 <style scoped>
 .logo {
   width: 70%;
-  margin-bottom: 10px;
+  max-width: 250px;
+  margin-bottom: 20px;
 }
 
 .button {
+  margin-top: 20px;
   height: 50px;
 }
 </style>
+
+<script lang="ts" setup>
+import {
+  form,
+  didUpdateEmail,
+  didUpdatePassword,
+  isSubmitEnabled,
+  submit,
+} from './LoginPageModel';
+</script>

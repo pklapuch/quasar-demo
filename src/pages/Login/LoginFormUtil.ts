@@ -1,13 +1,13 @@
-import { isEmptyString } from './StringUtil';
+import { isEmptyString } from 'src/validation/StringUtil';
 
 export interface ValidationResult {
   isInvalid: boolean;
   errorMessage: string | null;
 }
 
-export function validateEmail(value: string): ValidationResult {
-  if (isEmptyString(value)) {
-    return { isInvalid: true, errorMessage: 'Value cannot be empty!' };
+export function validateEmail(value: string | null): ValidationResult {
+  if (value === null || isEmptyString(value)) {
+    return { isInvalid: true, errorMessage: 'Email cannot be empty!' };
   }
 
   if (!isValidEmail(value)) {
@@ -17,9 +17,9 @@ export function validateEmail(value: string): ValidationResult {
   return { isInvalid: false, errorMessage: null };
 }
 
-export function validatePassword(value: string): ValidationResult {
-  if (isEmptyString(value)) {
-    return { isInvalid: true, errorMessage: 'Value cannot be empty!' };
+export function validatePassword(value: string | null): ValidationResult {
+  if (value === null || isEmptyString(value)) {
+    return { isInvalid: true, errorMessage: 'Password cannot be empty!' };
   }
 
   return { isInvalid: false, errorMessage: null };

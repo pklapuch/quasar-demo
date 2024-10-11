@@ -2,10 +2,13 @@ import { registerLoadQuoteService } from './QuoteAppContainer';
 import { registerHttpClient } from './CoreContainer';
 import { executeHttpRequestWithAxios } from 'src/services/HTTPClient';
 import { loadQuoteFromRemote } from 'src/services/LoadQuoteFromRemoteService';
+import { registerLoginService } from './LoginContainer';
+import { loginRemoteService } from 'src/services/LoginRemoteService';
 
 export const registerDependencies = function () {
   registerHttpClient(executeHttpRequestWithAxios);
   registerLoadQuoteService(loadQuoteFromRemote);
+  registerLoginService(loginRemoteService);
   registerMockDependencies();
 };
 
@@ -19,5 +22,5 @@ export const registerDependencies = function () {
 
 export function registerMockDependencies() {
   // registerLoadQuoteService(loadQuoteMockService);
-  // mockAxiosLoadQuoteFromRemoteWithValidQuote();
+  // mockAxisssosLoadQuoteFromRemoteWithValidQuote();
 }
