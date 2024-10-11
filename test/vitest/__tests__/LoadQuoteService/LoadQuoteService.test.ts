@@ -1,4 +1,4 @@
-import { InvalidResponseRepresentationError } from 'src/services/InvalidResponseRepresentationError';
+import { InvalidResponseRepresentationError } from 'src/models/InvalidResponseRepresentationError';
 import { expect, it } from 'vitest';
 import { mapResponse } from 'src/services/LoadQuoteResponseMapper';
 import { APIResponse } from 'src/api/APIModels';
