@@ -1,5 +1,3 @@
-import { validateEmail, validatePassword } from './LoginFormUtil';
-
 export class LoginForm {
   email: string | null;
   emailError: string;
@@ -26,33 +24,4 @@ export class LoginForm {
     this.isLoggingIn = false;
     this.canSubmit = false;
   }
-}
-
-export function didUpdateEmailInForm(form: LoginForm) {
-  const result = validateEmail(form.email);
-  form.isEmailValid = !result.isInvalid;
-  form.emailError = result.errorMessage ?? '';
-  didUpdate(form);
-}
-
-export function didUpdatePasswordInForm(form: LoginForm) {
-  const result = validatePassword(form.password);
-  form.isPasswordValid = !result.isInvalid;
-  form.passwordError = result.errorMessage ?? '';
-  didUpdate(form);
-}
-
-export function setLoggingIn(form: LoginForm, state: boolean) {
-  form.isLoggingIn = state;
-  didUpdate(form);
-}
-
-export function toggleHidePasswordInForm(form: LoginForm) {
-  form.hidePassword = !form.hidePassword;
-  didUpdate(form);
-}
-
-function didUpdate(form: LoginForm) {
-  form.canSubmit =
-    form.isEmailValid && form.isPasswordValid && !form.isLoggingIn;
 }

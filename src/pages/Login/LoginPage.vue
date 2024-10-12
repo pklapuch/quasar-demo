@@ -10,10 +10,9 @@
             label="Enter Email"
             rounded
             outlined
-            v-model="form.email"
-            @update:model-value="didUpdateEmail"
-            :error="!form.isEmailValid"
-            :error-message="form.emailError"
+            v-model="pageModel.email.value"
+            :error="!pageModel.form.isEmailValid"
+            :error-message="pageModel.form.emailError"
           >
             <template v-slot:prepend>
               <q-icon name="email"> </q-icon>
@@ -27,19 +26,20 @@
             class="q-mt-sm"
             rounded
             outlined
-            v-model="form.password"
-            @update:model-value="didUpdatePassword"
-            :type="form.hidePassword ? 'password' : 'text'"
-            :error="!form.isPasswordValid"
-            :error-message="form.passwordError"
+            v-model="pageModel.password.value"
+            :type="pageModel.form.hidePassword ? 'password' : 'text'"
+            :error="!pageModel.form.isPasswordValid"
+            :error-message="pageModel.form.passwordError"
           >
             <template v-slot:prepend>
               <q-icon name="lock"> </q-icon>
             </template>
             <template v-slot:append>
               <q-icon
-                :name="form.hidePassword ? 'visibility_off' : 'visibility'"
-                @click="toggleHidePassword()"
+                :name="
+                  pageModel.form.hidePassword ? 'visibility_off' : 'visibility'
+                "
+                @click="pageModel.toggleHidePassword()"
               >
               </q-icon>
             </template>
@@ -49,8 +49,8 @@
           <q-btn
             class="button"
             color="indigo"
-            @click="submit"
-            :disable="!isSubmitEnabled()"
+            @click="pageModel.submit"
+            :disable="!pageModel.form.canSubmit"
             >Login</q-btn
           >
         </data>
@@ -73,12 +73,6 @@
 </style>
 
 <script lang="ts" setup>
-import {
-  form,
-  didUpdateEmail,
-  didUpdatePassword,
-  isSubmitEnabled,
-  toggleHidePassword,
-  submit,
-} from './LoginPageModel';
+import loginPageModel from './LoginPageModel';
+const pageModel = loginPageModel();
 </script>
