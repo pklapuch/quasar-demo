@@ -6,6 +6,7 @@ export class LoginForm {
   isEmailValid: boolean;
 
   password: string | null;
+  hidePassword: boolean;
   passwordError: string;
   isPasswordValid: boolean;
 
@@ -18,6 +19,7 @@ export class LoginForm {
     this.isEmailValid = false;
 
     this.password = null;
+    this.hidePassword = true;
     this.passwordError = '';
     this.isPasswordValid = false;
 
@@ -42,6 +44,11 @@ export function didUpdatePasswordInForm(form: LoginForm) {
 
 export function setLoggingIn(form: LoginForm, state: boolean) {
   form.isLoggingIn = state;
+  didUpdate(form);
+}
+
+export function toggleHidePasswordInForm(form: LoginForm) {
+  form.hidePassword = !form.hidePassword;
   didUpdate(form);
 }
 

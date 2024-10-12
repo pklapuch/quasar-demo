@@ -4,6 +4,7 @@ import {
   LoginForm,
   didUpdateEmailInForm,
   didUpdatePasswordInForm,
+  toggleHidePasswordInForm,
   setLoggingIn,
 } from 'src/pages/Login/LoginForm';
 import { LoginRequest, loginService } from 'src/DIContainer/LoginContainer';
@@ -16,6 +17,10 @@ export const didUpdateEmail = () => {
 
 export const didUpdatePassword = () => {
   didUpdatePasswordInForm(form);
+};
+
+export const toggleHidePassword = () => {
+  toggleHidePasswordInForm(form);
 };
 
 export const isSubmitEnabled = () => {

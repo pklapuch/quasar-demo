@@ -1,8 +1,9 @@
 import { expect, it } from 'vitest';
 import {
+  form,
   didUpdateEmail,
   didUpdatePassword,
-  form,
+  toggleHidePassword,
   submit,
 } from 'src/pages/Login/LoginPageModel';
 import {
@@ -10,9 +11,12 @@ import {
   registerLoginService,
 } from 'src/DIContainer/LoginContainer';
 
-it('when initialized, form reflects initial state', () => {
+it('when initialized, form is in expected (initial) state', () => {
+  expect(form.email).toBeFalsy;
   expect(form.isEmailValid).toBe(false);
   expect(form.emailError).toBeFalsy;
+  expect(form.password).toBeFalsy;
+  expect(form.hidePassword).toBe(true);
   expect(form.isPasswordValid).toBe(false);
   expect(form.passwordError).toBeFalsy;
   expect(form.canSubmit).toBe(false);
@@ -61,6 +65,14 @@ it('form can only be submitted if all fields are valid', () => {
 
   simulatePasswordEntry(anyInvalidPassword);
   expect(form.canSubmit).toBe(false);
+});
+
+it('on toggle hide password, updates state', () => {
+  expect(form.hidePassword).toBe(true);
+  toggleHidePassword();
+  expect(form.hidePassword).toBe(false);
+  toggleHidePassword();
+  expect(form.hidePassword).toBe(true);
 });
 
 it('on submit with completed form, login service is invoked', async () => {

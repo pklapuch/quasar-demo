@@ -29,6 +29,7 @@
             outlined
             v-model="form.password"
             @update:model-value="didUpdatePassword"
+            :type="form.hidePassword ? 'password' : 'text'"
             :error="!form.isPasswordValid"
             :error-message="form.passwordError"
           >
@@ -36,7 +37,11 @@
               <q-icon name="lock"> </q-icon>
             </template>
             <template v-slot:append>
-              <q-icon name="visibility_off"> </q-icon>
+              <q-icon
+                :name="form.hidePassword ? 'visibility_off' : 'visibility'"
+                @click="toggleHidePassword()"
+              >
+              </q-icon>
             </template>
           </q-input>
         </div>
@@ -73,6 +78,7 @@ import {
   didUpdateEmail,
   didUpdatePassword,
   isSubmitEnabled,
+  toggleHidePassword,
   submit,
 } from './LoginPageModel';
 </script>
