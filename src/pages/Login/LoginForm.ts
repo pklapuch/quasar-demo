@@ -9,7 +9,9 @@ export class LoginForm {
   isPasswordValid: boolean;
 
   isLoggingIn: boolean;
+  hasLoggedIn: boolean;
   canSubmit: boolean;
+  loginError: string;
 
   constructor() {
     this.email = null;
@@ -22,6 +24,8 @@ export class LoginForm {
     this.isPasswordValid = false;
 
     this.isLoggingIn = false;
+    this.hasLoggedIn = false;
     this.canSubmit = false;
+    this.loginError = '';
   }
 }

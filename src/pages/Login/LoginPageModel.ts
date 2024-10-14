@@ -38,6 +38,16 @@ export default function loginPageModel() {
     },
   });
 
+  const hasLoggedIn = computed({
+    get() {
+      return form.hasLoggedIn;
+    },
+    set(value) {
+      form.hasLoggedIn = value;
+      updateCanSubmit();
+    },
+  });
+
   function validateEmailValue() {
     const result = validateEmail(form.email);
     form.isEmailValid = !result.isInvalid;
@@ -65,19 +75,25 @@ export default function loginPageModel() {
       form.password as string
     );
 
+    form.loginError = '';
+    loggingIn.value = true;
+
     try {
-      loggingIn.value = true;
       await loginService(request);
+      hasLoggedIn.value = true;
       loggingIn.value = false;
     } catch (error) {
       loggingIn.value = false;
-      // TODO: Implement me
+      form.loginError = 'Login Failed: ' + error;
     }
   }
 
   function updateCanSubmit() {
     form.canSubmit =
-      form.isEmailValid && form.isPasswordValid && !form.isLoggingIn;
+      form.isEmailValid &&
+      form.isPasswordValid &&
+      !form.isLoggingIn &&
+      !form.hasLoggedIn;
   }
 
   return {

@@ -55,7 +55,10 @@ module.exports = configure(function (/* ctx */) {
       // publicPath: '/',
       // analyze: true,
       env: {
-        API_BASE_URL: 'https://api.breakingbadquotes.xyz',
+        API_BASE_URL:
+          'https://l09e4ph4jg.execute-api.us-east-2.amazonaws.com/dev',
+        API_AUTH_URL: 'https://cognito-idp.us-east-2.amazonaws.com',
+        API_CLIENT_ID: '72epgaub5s13d76l0ngebpikaq',
       },
       // rawDefine: {}
       // ignorePublicFolder: true,

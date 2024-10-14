@@ -1,17 +1,6 @@
 <template>
   <q-page class="flex flex-center text-white">
-    <div class="row">
-      <q-btn to="counterapp" label="Counter App" size="xl" />
-    </div>
-    <div class="row">
-      <q-btn to="quoteapp" label="Quote App" size="xl" />
-    </div>
-    <div class="row">
-      <q-btn to="todoapp" label="ToDo App" size="xl" />
-    </div>
-    <div class="row">
-      <q-btn to="testcomponentapp" label="Test App" size="xl" />
-    </div>
+    <div>Not a real page</div>
   </q-page>
 </template>
 
@@ -23,7 +12,6 @@
 </style>
 
 <script setup>
-/*
-Imports
-*/
+import { navigateToInitialScreen } from 'src/services/InitialRouteFlow';
+navigateToInitialScreen();
 </script>

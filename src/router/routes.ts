@@ -7,17 +7,27 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: '',
-        component: () => import('pages/Login/LoginPage.vue'),
+        component: () => import('pages/IndexPage.vue'),
       },
     ],
   },
   {
-    path: '/counterapp',
+    path: '/home',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
         path: '',
-        component: () => import('pages/CounterAppPage.vue'),
+        component: () => import('pages/Home/HomePage.vue'),
+      },
+    ],
+  },
+  {
+    path: '/login',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('pages/Login/LoginPage.vue'),
       },
     ],
   },

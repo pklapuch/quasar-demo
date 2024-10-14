@@ -45,15 +45,17 @@
             </template>
           </q-input>
         </div>
-        <data class="column q-mt-sm">
+        <div class="text-red text-center">{{ pageModel.form.loginError }}</div>
+        <div class="column q-mt-sm">
           <q-btn
             class="button"
             color="indigo"
             @click="pageModel.submit"
+            :loading="pageModel.form.isLoggingIn"
             :disable="!pageModel.form.canSubmit"
             >Login</q-btn
           >
-        </data>
+        </div>
       </div>
     </div>
   </q-page>

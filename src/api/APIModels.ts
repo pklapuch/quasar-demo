@@ -5,14 +5,14 @@ export type Headers = {
 export class APIRequest {
   url: string;
   method: string;
-  body?: unknown | null;
-  headers?: Headers | null;
+  body: unknown | null;
+  headers: Headers | null;
 
   constructor(
     url: string,
     method: string,
-    body?: unknown,
-    headers?: Headers | null
+    body: unknown | null,
+    headers: Headers | null
   ) {
     this.url = url;
     this.method = method;

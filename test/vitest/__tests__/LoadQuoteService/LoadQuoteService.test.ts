@@ -1,6 +1,6 @@
 import { InvalidResponseRepresentationError } from 'src/models/InvalidResponseRepresentationError';
 import { expect, it } from 'vitest';
-import { mapResponse } from 'src/services/LoadQuoteResponseMapper';
+import { mapResponse } from 'src/services/LoadQuote/LoadQuoteResponseMapper';
 import { APIResponse } from 'src/api/APIModels';
 
 import {
@@ -9,7 +9,7 @@ import {
   resposeDataWithEmptyJson,
   failureStatusCodes,
 } from './LoadQuoteServiceTestHelpers';
-import { mapRequest } from 'src/services/LoadQuoteRequestMapper';
+import { mapRequest } from 'src/services/LoadQuote/LoadQuoteRequestMapper';
 
 it('devlivers properly configured request', () => {
   const requset = mapRequest();

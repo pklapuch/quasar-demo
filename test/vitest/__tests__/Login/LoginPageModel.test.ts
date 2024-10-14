@@ -25,7 +25,7 @@ const anyValidEmail = 'test@any.com';
 const anyInvalidPassword = '';
 const anyValidPassword = 'abc@@';
 
-it('when email value changes, form reflects correct state', () => {
+it('when email value changes, email is validated', () => {
   const sut = loginPageModel();
 
   simulateEmailEntry(sut, anyInvalidEmail);
@@ -38,7 +38,7 @@ it('when email value changes, form reflects correct state', () => {
   expect(sut.form.isEmailValid).toBe(false);
 });
 
-it('when password value changes, form reflects correct state', () => {
+it('when password value changes, password is validated', () => {
   const sut = loginPageModel();
 
   simulatePasswordEntry(sut, anyInvalidPassword);
@@ -70,7 +70,7 @@ it('form can only be submitted if all fields are valid', () => {
   expect(sut.form.canSubmit).toBe(false);
 });
 
-it('on toggle hide password, updates state', () => {
+it('on toggle hide password, updates password visibility mode', () => {
   const sut = loginPageModel();
 
   expect(sut.form.hidePassword).toBe(true);
@@ -113,7 +113,36 @@ it('isLoading state changnes as login is performed', async () => {
   simulateEmailEntry(sut, email);
   simulatePasswordEntry(sut, password);
   await sut.submit();
+
   expect(sut.form.isLoggingIn).toBe(false);
+});
+
+it('on successful login, submit is disabled', async () => {
+  const sut = loginPageModel();
+  registerLoginService(() => Promise.resolve());
+
+  simulateEmailEntry(sut, anyValidEmail);
+  simulatePasswordEntry(sut, anyValidPassword);
+  await sut.submit();
+
+  expect(sut.form.canSubmit).toBe(false);
+  expect(sut.form.loginError).toBeFalsy;
+});
+
+it('on failed login, error is shown', async () => {
+  const sut = loginPageModel();
+  registerLoginService(() => Promise.reject());
+
+  simulateEmailEntry(sut, anyValidEmail);
+  simulatePasswordEntry(sut, anyValidPassword);
+  await sut.submit();
+
+  expect(sut.form.canSubmit).toBe(true);
+  expect(sut.form.loginError).toBeTruthy;
+
+  registerLoginService(() => Promise.resolve());
+  await sut.submit();
+  expect(sut.form.loginError).toBeFalsy;
 });
 
 // - MARK: Helpers

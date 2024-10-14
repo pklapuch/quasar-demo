@@ -1,14 +1,21 @@
 import { registerLoadQuoteService } from './QuoteAppContainer';
-import { registerHttpClient } from './CoreContainer';
-import { executeHttpRequestWithAxios } from 'src/services/HTTPClient';
-import { loadQuoteFromRemote } from 'src/services/LoadQuoteFromRemoteService';
+import {
+  registerNoAuthHttpClient,
+  registerAuthHttpClient,
+} from './CoreContainer';
+import {
+  executeHttpRequestWithAxios,
+  executeHttpRequestWithAxiosWithAuth,
+} from 'src/services/HTTPClient/HTTPClient';
+import { loadQuoteFromRemote } from 'src/services/LoadQuote/LoadQuoteFromRemoteService';
 import { registerLoginService } from './LoginContainer';
-import { loginRemoteService } from 'src/services/LoginRemoteService';
+import { loginRemoteService } from 'src/services/Login/LoginRemoteService';
 
 export const registerDependencies = function () {
-  registerHttpClient(executeHttpRequestWithAxios);
+  registerNoAuthHttpClient(executeHttpRequestWithAxios);
+  registerAuthHttpClient(executeHttpRequestWithAxiosWithAuth);
   registerLoadQuoteService(loadQuoteFromRemote);
-  registerLoginService(loginRemoteService);
+  registerLoginService(loginAndGetData);
   registerMockDependencies();
 };
 
@@ -23,4 +30,17 @@ export const registerDependencies = function () {
 export function registerMockDependencies() {
   // registerLoadQuoteService(loadQuoteMockService);
   // mockAxisssosLoadQuoteFromRemoteWithValidQuote();
+}
+
+import { LoginRequest } from './LoginContainer';
+import { appRouter } from 'src/router/index';
+
+async function loginAndGetData(request: LoginRequest) {
+  await loginRemoteService(request);
+
+  try {
+    appRouter.push('/home');
+  } catch (error) {
+    console.log('error: ' + error);
+  }
 }

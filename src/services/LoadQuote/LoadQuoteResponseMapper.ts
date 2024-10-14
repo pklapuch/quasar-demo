@@ -1,5 +1,5 @@
 import { APIResponse } from 'src/api/APIModels';
-import { InvalidResponseRepresentationError } from '../models/InvalidResponseRepresentationError';
+import { InvalidResponseRepresentationError } from '../../models/InvalidResponseRepresentationError';
 
 // Returns: String
 // Throws: InvalidResponseRepresentation Error
