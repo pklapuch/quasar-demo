@@ -9,14 +9,14 @@ import {
 it('when initialized, form is in expected (initial) state', () => {
   const sut = loginPageModel();
 
-  expect(sut.form.email).toBeFalsy;
-  expect(sut.form.isEmailValid).toBe(false);
-  expect(sut.form.emailError).toBeFalsy;
-  expect(sut.form.password).toBeFalsy;
-  expect(sut.form.hidePassword).toBe(true);
-  expect(sut.form.isPasswordValid).toBe(false);
-  expect(sut.form.passwordError).toBeFalsy;
-  expect(sut.form.canSubmit).toBe(false);
+  expect(sut.state.email).toBeFalsy;
+  expect(sut.state.isEmailValid).toBe(false);
+  expect(sut.state.emailError).toBeFalsy;
+  expect(sut.state.password).toBeFalsy;
+  expect(sut.state.hidePassword).toBe(true);
+  expect(sut.state.isPasswordValid).toBe(false);
+  expect(sut.state.passwordError).toBeFalsy;
+  expect(sut.state.canSubmit).toBe(false);
 });
 
 const anyInvalidEmail = 'abs@@';
@@ -29,55 +29,55 @@ it('when email value changes, email is validated', () => {
   const sut = loginPageModel();
 
   simulateEmailEntry(sut, anyInvalidEmail);
-  expect(sut.form.isEmailValid).toBe(false);
+  expect(sut.state.isEmailValid).toBe(false);
 
   simulateEmailEntry(sut, anyValidEmail);
-  expect(sut.form.isEmailValid).toBe(true);
+  expect(sut.state.isEmailValid).toBe(true);
 
   simulateEmailEntry(sut, anyInvalidEmail);
-  expect(sut.form.isEmailValid).toBe(false);
+  expect(sut.state.isEmailValid).toBe(false);
 });
 
 it('when password value changes, password is validated', () => {
   const sut = loginPageModel();
 
   simulatePasswordEntry(sut, anyInvalidPassword);
-  expect(sut.form.isPasswordValid).toBe(false);
+  expect(sut.state.isPasswordValid).toBe(false);
 
   simulatePasswordEntry(sut, anyValidPassword);
-  expect(sut.form.isPasswordValid).toBe(true);
+  expect(sut.state.isPasswordValid).toBe(true);
 
   simulatePasswordEntry(sut, anyInvalidPassword);
-  expect(sut.form.isPasswordValid).toBe(false);
+  expect(sut.state.isPasswordValid).toBe(false);
 });
 
 it('form can only be submitted if all fields are valid', () => {
   const sut = loginPageModel();
 
   simulateEmailEntry(sut, anyValidEmail);
-  expect(sut.form.canSubmit).toBe(false);
+  expect(sut.state.canSubmit).toBe(false);
 
   simulatePasswordEntry(sut, anyValidPassword);
-  expect(sut.form.canSubmit).toBe(true);
+  expect(sut.state.canSubmit).toBe(true);
 
   simulateEmailEntry(sut, anyInvalidEmail);
-  expect(sut.form.canSubmit).toBe(false);
+  expect(sut.state.canSubmit).toBe(false);
 
   simulateEmailEntry(sut, anyValidEmail);
-  expect(sut.form.canSubmit).toBe(true);
+  expect(sut.state.canSubmit).toBe(true);
 
   simulatePasswordEntry(sut, anyInvalidPassword);
-  expect(sut.form.canSubmit).toBe(false);
+  expect(sut.state.canSubmit).toBe(false);
 });
 
 it('on toggle hide password, updates password visibility mode', () => {
   const sut = loginPageModel();
 
-  expect(sut.form.hidePassword).toBe(true);
+  expect(sut.state.hidePassword).toBe(true);
   sut.toggleHidePassword();
-  expect(sut.form.hidePassword).toBe(false);
+  expect(sut.state.hidePassword).toBe(false);
   sut.toggleHidePassword();
-  expect(sut.form.hidePassword).toBe(true);
+  expect(sut.state.hidePassword).toBe(true);
 });
 
 it('on submit with completed form, login service is invoked', async () => {
@@ -102,7 +102,7 @@ it('on submit with completed form, login service is invoked', async () => {
 it('isLoading state changnes as login is performed', async () => {
   const sut = loginPageModel();
   const loginServicePromise: Promise<void> = new Promise((resolve) => {
-    expect(sut.form.isLoggingIn).toBe(true);
+    expect(sut.state.isLoggingIn).toBe(true);
     resolve();
   });
   mockLoginServiceWithPromise(loginServicePromise);
@@ -112,37 +112,35 @@ it('isLoading state changnes as login is performed', async () => {
 
   simulateEmailEntry(sut, email);
   simulatePasswordEntry(sut, password);
-  await sut.submit();
 
-  expect(sut.form.isLoggingIn).toBe(false);
+  expect(sut.state.isLoggingIn).toBe(false);
+  await sut.submit();
+  expect(sut.state.isLoggingIn).toBe(false);
 });
 
 it('on successful login, submit is disabled', async () => {
   const sut = loginPageModel();
-  registerLoginService(() => Promise.resolve());
 
+  registerLoginService(() => Promise.resolve());
   simulateEmailEntry(sut, anyValidEmail);
   simulatePasswordEntry(sut, anyValidPassword);
   await sut.submit();
 
-  expect(sut.form.canSubmit).toBe(false);
-  expect(sut.form.loginError).toBeFalsy;
+  expect(sut.state.canSubmit).toBe(false);
+  expect(sut.state.loginError.length).toBe(0);
 });
 
 it('on failed login, error is shown', async () => {
+  const loginError = Error('Mock Error');
   const sut = loginPageModel();
-  registerLoginService(() => Promise.reject());
 
+  registerLoginService(() => Promise.reject(loginError));
   simulateEmailEntry(sut, anyValidEmail);
   simulatePasswordEntry(sut, anyValidPassword);
   await sut.submit();
 
-  expect(sut.form.canSubmit).toBe(true);
-  expect(sut.form.loginError).toBeTruthy;
-
-  registerLoginService(() => Promise.resolve());
-  await sut.submit();
-  expect(sut.form.loginError).toBeFalsy;
+  expect(sut.state.canSubmit).toBe(true);
+  expect(sut.state.loginError.length).toBeGreaterThan(0);
 });
 
 // - MARK: Helpers

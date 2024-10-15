@@ -1,17 +1,17 @@
 import { computed, reactive } from 'vue';
-import { LoginForm } from 'src/pages/Login/LoginForm';
+import { LoginPageState } from 'src/pages/Login/LoginPageState';
 import { LoginRequest, loginService } from 'src/DIContainer/LoginContainer';
 import { validateEmail, validatePassword } from './LoginFormUtil';
 
 export default function loginPageModel() {
-  const form = reactive(new LoginForm());
+  const state = reactive(new LoginPageState());
 
   const email = computed({
     get() {
-      return form.email;
+      return state.email;
     },
     set(value) {
-      form.email = value;
+      state.email = value;
       validateEmailValue();
       updateCanSubmit();
     },
@@ -19,10 +19,10 @@ export default function loginPageModel() {
 
   const password = computed({
     get() {
-      return form.password;
+      return state.password;
     },
     set(value) {
-      form.password = value;
+      state.password = value;
       validatePasswordValue();
       updateCanSubmit();
     },
@@ -30,52 +30,52 @@ export default function loginPageModel() {
 
   const loggingIn = computed({
     get() {
-      return form.isLoggingIn;
+      return state.isLoggingIn;
     },
     set(value) {
-      form.isLoggingIn = value;
+      state.isLoggingIn = value;
       updateCanSubmit();
     },
   });
 
   const hasLoggedIn = computed({
     get() {
-      return form.hasLoggedIn;
+      return state.hasLoggedIn;
     },
     set(value) {
-      form.hasLoggedIn = value;
+      state.hasLoggedIn = value;
       updateCanSubmit();
     },
   });
 
   function validateEmailValue() {
-    const result = validateEmail(form.email);
-    form.isEmailValid = !result.isInvalid;
-    form.emailError = result.errorMessage ?? '';
+    const result = validateEmail(state.email);
+    state.isEmailValid = !result.isInvalid;
+    state.emailError = result.errorMessage ?? '';
   }
 
   function validatePasswordValue() {
-    const result = validatePassword(form.password);
-    form.isPasswordValid = !result.isInvalid;
-    form.passwordError = result.errorMessage ?? '';
+    const result = validatePassword(state.password);
+    state.isPasswordValid = !result.isInvalid;
+    state.passwordError = result.errorMessage ?? '';
   }
 
   function toggleHidePassword() {
-    form.hidePassword = !form.hidePassword;
+    state.hidePassword = !state.hidePassword;
     updateCanSubmit();
   }
 
   async function submit() {
-    if (!form.canSubmit) {
+    if (!state.canSubmit) {
       return;
     }
 
     const request = new LoginRequest(
-      form.email as string,
-      form.password as string
+      state.email as string,
+      state.password as string
     );
 
-    form.loginError = '';
+    state.loginError = '';
     loggingIn.value = true;
 
     try {
@@ -84,20 +84,20 @@ export default function loginPageModel() {
       loggingIn.value = false;
     } catch (error) {
       loggingIn.value = false;
-      form.loginError = 'Login Failed: ' + error;
+      state.loginError = 'Login Failed: ' + error;
     }
   }
 
   function updateCanSubmit() {
-    form.canSubmit =
-      form.isEmailValid &&
-      form.isPasswordValid &&
-      !form.isLoggingIn &&
-      !form.hasLoggedIn;
+    state.canSubmit =
+      state.isEmailValid &&
+      state.isPasswordValid &&
+      !state.isLoggingIn &&
+      !state.hasLoggedIn;
   }
 
   return {
-    form,
+    state,
     email,
     password,
     toggleHidePassword,

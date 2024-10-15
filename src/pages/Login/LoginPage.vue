@@ -11,8 +11,8 @@
             rounded
             outlined
             v-model="pageModel.email.value"
-            :error="!pageModel.form.isEmailValid"
-            :error-message="pageModel.form.emailError"
+            :error="!pageModel.state.isEmailValid"
+            :error-message="pageModel.state.emailError"
           >
             <template v-slot:prepend>
               <q-icon name="email"> </q-icon>
@@ -27,9 +27,9 @@
             rounded
             outlined
             v-model="pageModel.password.value"
-            :type="pageModel.form.hidePassword ? 'password' : 'text'"
-            :error="!pageModel.form.isPasswordValid"
-            :error-message="pageModel.form.passwordError"
+            :type="pageModel.state.hidePassword ? 'password' : 'text'"
+            :error="!pageModel.state.isPasswordValid"
+            :error-message="pageModel.state.passwordError"
           >
             <template v-slot:prepend>
               <q-icon name="lock"> </q-icon>
@@ -37,7 +37,7 @@
             <template v-slot:append>
               <q-icon
                 :name="
-                  pageModel.form.hidePassword ? 'visibility_off' : 'visibility'
+                  pageModel.state.hidePassword ? 'visibility_off' : 'visibility'
                 "
                 @click="pageModel.toggleHidePassword()"
               >
@@ -45,14 +45,14 @@
             </template>
           </q-input>
         </div>
-        <div class="text-red text-center">{{ pageModel.form.loginError }}</div>
+        <div class="text-red text-center">{{ pageModel.state.loginError }}</div>
         <div class="column q-mt-sm">
           <q-btn
             class="button"
             color="indigo"
             @click="pageModel.submit"
-            :loading="pageModel.form.isLoggingIn"
-            :disable="!pageModel.form.canSubmit"
+            :loading="pageModel.state.isLoggingIn"
+            :disable="!pageModel.state.canSubmit"
             >Login</q-btn
           >
         </div>

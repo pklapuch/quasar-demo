@@ -1,4 +1,4 @@
-export class LoginForm {
+export class LoginPageState {
   email: string | null;
   emailError: string;
   isEmailValid: boolean;
