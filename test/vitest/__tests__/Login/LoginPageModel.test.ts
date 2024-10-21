@@ -1,7 +1,6 @@
 import { expect, it } from 'vitest';
 import loginPageModel from 'src/pages/Login/LoginPageModel';
 import { LoginRequest } from 'src/models/LoginRequest';
-
 import { registerLoginService } from 'src/DIContainer/LoginContainer';
 
 it('when initialized, form is in expected (initial) state', () => {
