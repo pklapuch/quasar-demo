@@ -1,5 +1,5 @@
 import { mapRequest } from './GetDataRequestMapper';
-import { authHttpClient } from 'src/DIContainer/CoreContainer';
+import { authHttpClient } from 'src/DIContainer/AuthHttpClientContainer';
 
 // Returns: Promise<String>
 // Throws: any Error

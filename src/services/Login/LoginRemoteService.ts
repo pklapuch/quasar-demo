@@ -1,6 +1,6 @@
-import { LoginRequest } from 'src/DIContainer/LoginContainer';
+import { LoginRequest } from 'src/models/LoginRequest';
 import { mapRequest } from './LoginRequestMapper';
-import { noAuthHttpClient } from 'src/DIContainer/CoreContainer';
+import { noAuthHttpClient } from 'src/DIContainer/NoAuthHttpClientContainer';
 import { mapResponse } from './LoginResponseMapper';
 import { setCookie } from '../CookieUtil';
 

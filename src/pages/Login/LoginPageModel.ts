@@ -1,6 +1,7 @@
 import { computed, reactive } from 'vue';
 import { LoginPageState } from 'src/pages/Login/LoginPageState';
-import { LoginRequest, loginService } from 'src/DIContainer/LoginContainer';
+import { LoginRequest } from 'src/models/LoginRequest';
+import { loginService } from 'src/DIContainer/LoginContainer';
 import { validateEmail, validatePassword } from './LoginFormUtil';
 
 export default function loginPageModel() {

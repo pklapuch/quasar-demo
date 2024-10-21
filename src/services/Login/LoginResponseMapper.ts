@@ -1,5 +1,5 @@
 import { APIResponse } from 'src/api/APIModels';
-import { LoginResponse } from 'src/DIContainer/LoginContainer';
+import { LoginResponse } from 'src/models/LoginResponse';
 import { InvalidResponseRepresentationError } from 'src/models/InvalidResponseRepresentationError';
 
 interface IDictionary {

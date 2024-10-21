@@ -1,5 +1,5 @@
 import { APIRequest, APIResponse } from 'src/api/APIModels';
-import { LoginResponse } from 'src/DIContainer/LoginContainer';
+import { LoginResponse } from 'src/models/LoginResponse';
 import { expect, it } from 'vitest';
 import authClient from 'src/services/HTTPClient/AuthExecutor';
 
@@ -13,12 +13,12 @@ it('on non 401 server response, delivers server response without triggering toke
   }
 
   function saveToken(token: LoginResponse) {
-    throw Error('Unexpected state');
+    throw Error('Unexpected state ' + token);
   }
 
   function refreshToken(accessToken: string): Promise<LoginResponse> {
     return new Promise((resolve, reject) => {
-      throw Error('Unexpected state');
+      throw Error('Unexpected state' + accessToken);
     });
   }
 

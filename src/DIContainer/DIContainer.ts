@@ -1,8 +1,6 @@
 import { registerLoadQuoteService } from './QuoteAppContainer';
-import {
-  registerNoAuthHttpClient,
-  registerAuthHttpClient,
-} from './CoreContainer';
+import { registerNoAuthHttpClient } from './NoAuthHttpClientContainer';
+import { registerAuthHttpClient } from './AuthHttpClientContainer';
 import {
   executeHttpRequestWithAxios,
   executeHttpRequestWithAxiosWithAuth,
@@ -15,27 +13,22 @@ export const registerDependencies = function () {
   registerNoAuthHttpClient(executeHttpRequestWithAxios);
   registerAuthHttpClient(executeHttpRequestWithAxiosWithAuth);
   registerLoadQuoteService(loadQuoteFromRemote);
-  registerLoginService(loginAndGetData);
+  registerLoginService(loginAndPushHome);
   registerMockDependencies();
 };
 
 // MOCK
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import { mockAxiosLoadQuoteFromRemoteWithValidQuote } from 'src/mockServices/axiosLoadQuoteFromRemoteMock';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import { loadQuoteMockService } from 'src/mockServices/loadQuoteMockService';
-
 export function registerMockDependencies() {
-  // registerLoadQuoteService(loadQuoteMockService);
-  // mockAxisssosLoadQuoteFromRemoteWithValidQuote();
+  // Mock dependencies as needed
 }
 
-import { LoginRequest } from './LoginContainer';
 import { appRouter } from 'src/router/index';
+import { LoginRequest } from 'src/models/LoginRequest';
 
-async function loginAndGetData(request: LoginRequest) {
+// Custom Behaviour
+
+async function loginAndPushHome(request: LoginRequest) {
   await loginRemoteService(request);
 
   try {
@@ -44,3 +37,13 @@ async function loginAndGetData(request: LoginRequest) {
     console.log('error: ' + error);
   }
 }
+
+// Mocking examples
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// import { mockAxiosLoadQuoteFromRemoteWithValidQuote } from 'src/mockServices/axiosLoadQuoteFromRemoteMock';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// import { loadQuoteMockService } from 'src/mockServices/loadQuoteMockService';
+
+// registerLoadQuoteService(loadQuoteMockService);
+// mockAxisssosLoadQuoteFromRemoteWithValidQuote();

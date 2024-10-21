@@ -1,15 +1,15 @@
-import { LoginResponse } from 'src/DIContainer/LoginContainer';
+import { LoginResponse } from 'src/models/LoginResponse';
 import { APIRequest, APIResponse } from 'src/api/APIModels';
 
 class QueuedRequest {
   request: APIRequest;
   resolve: (value: unknown) => void;
-  reject: (reason?: any) => void;
+  reject: (reason?: unknown) => void;
 
   constructor(
     request: APIRequest,
     resolve: (value: unknown) => void,
-    reject: (reason?: any) => void
+    reject: (reason?: unknown) => void
   ) {
     this.request = request;
     this.resolve = resolve;

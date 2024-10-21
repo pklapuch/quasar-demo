@@ -1,22 +1,4 @@
-export class LoginRequest {
-  email: string;
-  password: string;
-
-  constructor(email: string, password: string) {
-    this.email = email;
-    this.password = password;
-  }
-}
-
-export class LoginResponse {
-  accessToken: string;
-  refreshToken: string;
-
-  constructor(accessToken: string, refreshToken: string) {
-    this.accessToken = accessToken;
-    this.refreshToken = refreshToken;
-  }
-}
+import { LoginRequest } from 'src/models/LoginRequest';
 
 export const loginService = async function (
   request: LoginRequest
