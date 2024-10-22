@@ -32,6 +32,16 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: '/test',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('pages/TestPage.vue'),
+      },
+    ],
+  },
+  {
     path: '/quoteapp',
     component: () => import('layouts/MainLayout.vue'),
     children: [

@@ -44,7 +44,6 @@ module.exports = configure(function (/* ctx */) {
         node: 'node20',
       },
 
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
       vueRouterMode: 'history',
       // vueRouterBase,
       // vueDevtools,
@@ -58,7 +57,7 @@ module.exports = configure(function (/* ctx */) {
         API_BASE_URL:
           'https://l09e4ph4jg.execute-api.us-east-2.amazonaws.com/dev',
         API_AUTH_URL: 'https://cognito-idp.us-east-2.amazonaws.com',
-        API_CLIENT_ID: '72epgaub5s13d76l0ngebpikaq',
+        API_CLIENT_ID: '4r6jvbjguf6dqljft2pv3pejk5',
       },
       // rawDefine: {}
       // ignorePublicFolder: true,
