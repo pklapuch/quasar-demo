@@ -41,7 +41,7 @@ export default route(function (/* { store, ssrContext } */) {
 
   appRouter = Router;
 
-  appRouter.beforeEach((to, from, next) => {
+  appRouter.beforeResolve((to, from, next) => {
     validateRouteUseCase(to, from, next);
   });
 

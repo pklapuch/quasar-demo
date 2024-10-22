@@ -33,9 +33,15 @@ export function registerMockDependencies() {
   // registerLoadTokenService(() => {
   //   return new LoginResponse('access', 'refresh');
   // });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // registerLoginService((request: LoginRequest) => {
+  //   return new Promise((resolve, reject) => {
+  //     reject(Error('Some Error'));
+  //   });
+  // });
 }
 
-import { appRouter } from 'src/router/index';
+import { appRouter } from 'src/router';
 import { LoginRequest } from 'src/models/LoginRequest';
 
 // Custom Behaviour
