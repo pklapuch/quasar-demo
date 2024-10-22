@@ -1,3 +1,7 @@
+// TODO: Use `vue-cookies` ?
+// import Vue from 'vue';
+// import VueCookies from 'vue-cookies';
+
 export function setCookie(id: string, value: string) {
   document.cookie = id + '=' + value;
 }

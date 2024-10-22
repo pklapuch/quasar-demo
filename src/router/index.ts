@@ -1,5 +1,6 @@
 import { route } from 'quasar/wrappers';
 import { Router } from 'vue-router';
+import { validateRouteUseCase } from 'src/services/ValidateRouteUseCase';
 
 import {
   createMemoryHistory,
@@ -39,6 +40,10 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   appRouter = Router;
+
+  appRouter.beforeEach((to, from, next) => {
+    validateRouteUseCase(to, from, next);
+  });
 
   return Router;
 });
