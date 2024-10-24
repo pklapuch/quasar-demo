@@ -17,12 +17,15 @@ it('on non 401 server response, delivers server response without triggering toke
   }
 
   function refreshToken(accessToken: string): Promise<LoginResponse> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return new Promise((resolve, reject) => {
       throw Error('Unexpected state' + accessToken);
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function executeRequest(request: APIRequest): Promise<APIResponse> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return new Promise((resolve, reject) => {
       resolve(dataResponse);
     });
@@ -54,14 +57,18 @@ it('on 401 server response, refreshes token and delivers retry response', async 
     newStoredToken = token;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function refreshToken(accessToken: string): Promise<LoginResponse> {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return new Promise((resolve, reject) => {
       resolve(serverNewToken);
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   function executeRequest(request: APIRequest): Promise<APIResponse> {
-    return new Promise((resolve, reject) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return new Promise((resolve, _reject) => {
       if (newStoredToken == null) {
         resolve(expiredTokenResponse);
       } else {

@@ -1,14 +1,9 @@
 <template>
-  <q-page>
-    <img
-      alt="Vue logo"
-      src="src/assets/login.svg"
-      style="width: 150px; height: 150px"
-    />
+  <q-page class="flex flex-center" padding>
     <SignUp />
   </q-page>
 </template>
 
 <script setup>
-import SignUp from 'src/components/SignUp.vue';
+import SignUp from 'src/feature/signUp/SignUp.vue';
 </script>

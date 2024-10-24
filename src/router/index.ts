@@ -1,6 +1,6 @@
 import { route } from 'quasar/wrappers';
 import { Router } from 'vue-router';
-import { validateRouteUseCase } from 'src/services/ValidateRouteUseCase';
+// import { validateRouteUseCase } from 'src/services/ValidateRouteUseCase';
 
 import {
   createMemoryHistory,
@@ -10,6 +10,7 @@ import {
 } from 'vue-router';
 
 import routes from './routes';
+import initialRouteMockService from 'src/mockServices/initialRouteMockService';
 
 /*
  * If not building with SSR mode, you can
@@ -42,7 +43,8 @@ export default route(function (/* { store, ssrContext } */) {
   appRouter = Router;
 
   appRouter.beforeResolve((to, from, next) => {
-    validateRouteUseCase(to, from, next);
+    initialRouteMockService('test', '/test').invoke(to, from, next);
+    //validateRouteUseCase(to, from, next);
   });
 
   return Router;

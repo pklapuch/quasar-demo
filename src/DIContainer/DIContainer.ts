@@ -26,8 +26,6 @@ export const registerDependencies = function () {
 
 // MOCK
 
-import { LoginResponse } from 'src/models/LoginResponse';
-
 export function registerMockDependencies() {
   // Mock dependencies as needed
   // registerLoadTokenService(() => {
