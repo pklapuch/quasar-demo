@@ -1,7 +1,7 @@
 import { LoginUseCase } from '../../../Domain/Login/LoginUseCase';
 import { LoginRequest } from 'src/Domain/Login/LoginRequest';
 import { LoginRemoteRepository } from '../../../Domain/Login/LoginRemoteRepository';
-import { TokenLocalRepository } from '../../../services/TokenStore/TokenLocalRepository';
+import { TokenLocalRepository } from '../../../Domain/Shared/TokenLocalRepository';
 
 /// Represents production-grade login use case.
 export class DefaultLoginUseCase implements LoginUseCase {

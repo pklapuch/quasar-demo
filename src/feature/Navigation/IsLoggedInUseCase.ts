@@ -1,4 +1,4 @@
-import { TokenLocalRepository } from '../../services/TokenStore/TokenLocalRepository';
+import { TokenLocalRepository } from '../../Domain/Shared/TokenLocalRepository';
 
 export class IsLoggedInUseCase {
   tokenRepository: TokenLocalRepository;

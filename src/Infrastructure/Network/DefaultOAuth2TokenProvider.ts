@@ -1,5 +1,5 @@
 import { OAuth2TokenProvider } from 'src/Domain/Shared/OAuth2TokenProvider';
-import { TokenLocalRepository } from 'src/services/TokenStore/TokenLocalRepository';
+import { TokenLocalRepository } from 'src/Domain/Shared/TokenLocalRepository';
 
 export class DefaultOAuth2TokenProvider implements OAuth2TokenProvider {
   tokenLocalRepository: TokenLocalRepository;

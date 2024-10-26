@@ -1,5 +1,5 @@
 import { LoginResponse } from 'src/Domain/Login/LoginResponse';
-import { TokenLocalRepository } from './TokenLocalRepository';
+import { TokenLocalRepository } from '../../Domain/Shared/TokenLocalRepository';
 import { setCookie, getCookie } from 'src/services/CookieUtil';
 
 /// Represents production-grade repository (cookies - invoking this repository will trigger calls to local storage)

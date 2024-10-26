@@ -1,26 +1,46 @@
-import { provide } from 'vue';
 import { DefaultLoginRemoteRepository } from 'src/Infrastructure/Login/DefaultLoginRemoteRepository';
 import { DefaultLoginUseCase } from 'src/Feature/Login/UseCase/DefaultLoginUseCase';
 import { LoginAndNavigateToHomeUseCaseDecorator } from './LoginAndNavigateToHomeUseCaseDecorator';
-import { loginUseCaseKey } from 'src/Domain/Login/LoginDependencies';
-import { HttpClient } from 'src/Domain/Shared/HttpClient';
-import { TokenLocalRepository } from 'src/services/TokenStore/TokenLocalRepository';
+import {
+  loginContainer,
+  loginRemoteRepositoryKey,
+  loginUseCaseKey,
+} from 'src/Domain/Login/LoginDependencies';
 import { Router } from 'vue-router';
+import {
+  noAuthHttpClientKey,
+  sharedContainer,
+  tokenLocalRepositoryKey,
+} from 'src/Domain/Shared/SharedDependencies';
 
-export function registerLoginDependencies(
-  httpClient: HttpClient,
-  tokenLocalRepository: TokenLocalRepository,
-  router: Router
-) {
-  const loginRemoteRepository = new DefaultLoginRemoteRepository(httpClient);
+export function registerLoginDependencies(router: Router) {
+  registerLoginRemoteRepository();
+  registerLoginUseCase(router);
+}
 
-  const loginUseCase = new DefaultLoginUseCase(
-    loginRemoteRepository,
-    tokenLocalRepository
-  );
+// Always create unique instance
+function registerLoginRemoteRepository() {
+  loginContainer.register(loginRemoteRepositoryKey, () => {
+    const httpClient = sharedContainer.resolve(noAuthHttpClientKey);
+    return new DefaultLoginRemoteRepository(httpClient);
+  });
+}
 
-  const loginUseCaseRouterDecorator =
-    new LoginAndNavigateToHomeUseCaseDecorator(loginUseCase, router);
+// Always create unique instance
+function registerLoginUseCase(router: Router) {
+  loginContainer.register(loginUseCaseKey, () => {
+    const loginRemoteRepository = loginContainer.resolve(
+      loginRemoteRepositoryKey
+    );
+    const tokenLocalRepository = sharedContainer.resolve(
+      tokenLocalRepositoryKey
+    );
 
-  provide(loginUseCaseKey, loginUseCaseRouterDecorator);
+    const loginUseCase = new DefaultLoginUseCase(
+      loginRemoteRepository,
+      tokenLocalRepository
+    );
+
+    return new LoginAndNavigateToHomeUseCaseDecorator(loginUseCase, router);
+  });
 }
