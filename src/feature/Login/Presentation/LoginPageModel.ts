@@ -1,10 +1,11 @@
 import { computed, reactive } from 'vue';
-import { LoginPageState } from 'src/pages/Login/LoginPageState';
-import { LoginRequest } from 'src/models/LoginRequest';
-import { loginService } from 'src/DIContainer/LoginContainer';
+import { LoginPageState } from 'src/Feature/Login/Presentation/LoginPageState';
+import { LoginRequest } from 'src/Domain/Login/LoginRequest';
 import { validateEmail, validatePassword } from './LoginFormUtil';
+import { LoginUseCase } from 'src/Domain/Login/LoginUseCase';
 
-export default function loginPageModel() {
+/// Is there a way to define this as type?
+export default function loginPageModel(loginUseCase: LoginUseCase) {
   const state = reactive(new LoginPageState());
 
   const email = computed({
@@ -80,7 +81,7 @@ export default function loginPageModel() {
     loggingIn.value = true;
 
     try {
-      await loginService(request);
+      await loginUseCase.invoke(request);
       hasLoggedIn.value = true;
       loggingIn.value = false;
     } catch (error) {

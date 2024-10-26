@@ -1,4 +1,4 @@
-import { APIRequest } from 'src/api/APIModels';
+import { APIRequest } from 'src/Domain/Shared/APIModels';
 
 const relativePath = '/v1/quotes';
 

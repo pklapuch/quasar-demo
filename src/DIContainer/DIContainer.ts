@@ -1,65 +1,54 @@
-import { registerLoadQuoteService } from './QuoteAppContainer';
-import { registerNoAuthHttpClient } from './NoAuthHttpClientContainer';
-import { registerAuthHttpClient } from './AuthHttpClientContainer';
-import {
-  executeHttpRequestWithAxios,
-  executeHttpRequestWithAxiosWithAuth,
-} from 'src/services/HTTPClient/HTTPClient';
-import { loadQuoteFromRemote } from 'src/services/LoadQuote/LoadQuoteFromRemoteService';
-import { registerLoginService } from './LoginContainer';
-import loginUseCase from 'src/services/Login/LoginUseCase';
+import { AxiosHttpClient } from 'src/Infrastructure/Network/AxiosHttpClient';
+import { HttpClientLogDecorator } from 'src/Infrastructure/Network/HttpClientLogDecorator';
+import { HttpClient } from 'src/Domain/Shared/HttpClient';
+import { registerLoginDependencies } from './Login/LoginContainer';
+import { api } from 'src/boot/axios';
 
-import { loadTokenService } from 'src/services/TokenStore/TokenStoreCookieService';
-import { registerLoadTokenService } from './TokenStoreContainer';
-import { storeTokenService } from 'src/services/TokenStore/TokenStoreCookieService';
-import { registerStoreTokenService } from './TokenStoreContainer';
+import { ValidateRouteUseCase } from 'src/Feature/Navigation/ValidateRouteUseCase';
+import { CookieTokenLocalRepository } from 'src/services/TokenStore/CookieTokenLocalRepository';
+import { IsLoggedInUseCase } from 'src/Feature/Navigation/IsLoggedInUseCase';
+import { Router } from 'vue-router';
+import { TokenLocalRepository } from 'src/services/TokenStore/TokenLocalRepository';
+import { DefaultOAuth2TokenProvider } from 'src/Infrastructure/Network/DefaultOAuth2TokenProvider';
+import { OAuth2HttpClientDecorator } from 'src/Infrastructure/Network/OAuth2HttpClientDecorator';
 
-export const registerDependencies = function () {
-  registerNoAuthHttpClient(executeHttpRequestWithAxios);
-  registerAuthHttpClient(executeHttpRequestWithAxiosWithAuth);
-  registerLoadQuoteService(loadQuoteFromRemote);
-  registerLoginService(loginAndPushHome);
-  registerLoadTokenService(loadTokenService);
-  registerStoreTokenService(storeTokenService);
-  registerMockDependencies();
+export const registerDependencies = function (router: Router) {
+  const noAuthHttpClient = makeNoAuthHttpClient();
+  const tokenLocalRepository = new CookieTokenLocalRepository();
+  const authHttpClient = makeAuthHttpClient(
+    noAuthHttpClient,
+    tokenLocalRepository
+  );
+
+  const validateRouteUseCase = makeValidateRouteUseCase(tokenLocalRepository);
+
+  router.beforeResolve((to, from, next) => {
+    //initialRouteMockService('test', '/test').invoke(to, from, next);
+    validateRouteUseCase.validate(to, from, next);
+  });
+
+  registerLoginDependencies(noAuthHttpClient, tokenLocalRepository, router);
 };
 
-// MOCK
-
-export function registerMockDependencies() {
-  // Mock dependencies as needed
-  // registerLoadTokenService(() => {
-  //   return new LoginResponse('access', 'refresh');
-  // });
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // registerLoginService((request: LoginRequest) => {
-  //   return new Promise((resolve, reject) => {
-  //     reject(Error('Some Error'));
-  //   });
-  // });
+function makeNoAuthHttpClient(): HttpClient {
+  const axiosHttpClient = new AxiosHttpClient(api);
+  return new HttpClientLogDecorator(axiosHttpClient);
 }
 
-import { appRouter } from 'src/router';
-import { LoginRequest } from 'src/models/LoginRequest';
+function makeAuthHttpClient(
+  noAuthHttpClient: HttpClient,
+  tokenLocalRepository: TokenLocalRepository
+): HttpClient {
+  const oauth2TokenProvider = new DefaultOAuth2TokenProvider(
+    tokenLocalRepository
+  );
 
-// Custom Behaviour
-
-async function loginAndPushHome(request: LoginRequest) {
-  await loginUseCase().login(request);
-
-  try {
-    appRouter.push('/home');
-  } catch (error) {
-    console.log('error: ' + error);
-  }
+  return new OAuth2HttpClientDecorator(noAuthHttpClient, oauth2TokenProvider);
 }
 
-// Mocking examples
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import { mockAxiosLoadQuoteFromRemoteWithValidQuote } from 'src/mockServices/axiosLoadQuoteFromRemoteMock';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-// import { loadQuoteMockService } from 'src/mockServices/loadQuoteMockService';
-
-// registerLoadQuoteService(loadQuoteMockService);
-// mockAxisssosLoadQuoteFromRemoteWithValidQuote();
+function makeValidateRouteUseCase(
+  tokenLocalRepository: TokenLocalRepository
+): ValidateRouteUseCase {
+  const isLoggedInUseCase = new IsLoggedInUseCase(tokenLocalRepository);
+  return new ValidateRouteUseCase(isLoggedInUseCase);
+}

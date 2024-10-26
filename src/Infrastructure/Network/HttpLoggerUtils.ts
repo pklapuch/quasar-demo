@@ -1,4 +1,4 @@
-import { APIRequest, APIResponse } from 'src/api/APIModels';
+import { APIRequest, APIResponse } from 'src/Domain/Shared/APIModels';
 
 const baseURL = process.env.API_BASE_URL;
 

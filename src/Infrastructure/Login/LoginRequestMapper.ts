@@ -1,5 +1,5 @@
-import { APIRequest, Headers } from 'src/api/APIModels';
-import { LoginRequest } from 'src/models/LoginRequest';
+import { APIRequest, Headers } from 'src/Domain/Shared/APIModels';
+import { LoginRequest } from 'src/Domain/Login/LoginRequest';
 
 const clientID = process.env.API_CLIENT_ID as string;
 const authURL = process.env.API_AUTH_URL as string;

@@ -1,6 +1,6 @@
-import { APIResponse } from 'src/api/APIModels';
-import { LoginResponse } from 'src/models/LoginResponse';
-import { InvalidResponseRepresentationError } from 'src/models/InvalidResponseRepresentationError';
+import { APIResponse } from 'src/Domain/Shared/APIModels';
+import { LoginResponse } from 'src/Domain/Login/LoginResponse';
+import { InvalidResponseRepresentationError } from 'src/Domain/Shared/InvalidResponseRepresentationError';
 
 interface IDictionary {
   [index: string]: unknown;

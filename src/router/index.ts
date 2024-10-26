@@ -1,6 +1,5 @@
 import { route } from 'quasar/wrappers';
 import { Router } from 'vue-router';
-// import { validateRouteUseCase } from 'src/services/ValidateRouteUseCase';
 
 import {
   createMemoryHistory,
@@ -10,18 +9,12 @@ import {
 } from 'vue-router';
 
 import routes from './routes';
-import initialRouteMockService from 'src/mockServices/initialRouteMockService';
 
-/*
- * If not building with SSR mode, you can
- * directly export the Router instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Router instance.
- */
+let appRouter: Router;
 
-export let appRouter: Router;
+export function getAppRouter() {
+  return appRouter;
+}
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
@@ -41,11 +34,6 @@ export default route(function (/* { store, ssrContext } */) {
   });
 
   appRouter = Router;
-
-  appRouter.beforeResolve((to, from, next) => {
-    initialRouteMockService('test', '/test').invoke(to, from, next);
-    //validateRouteUseCase(to, from, next);
-  });
 
   return Router;
 });

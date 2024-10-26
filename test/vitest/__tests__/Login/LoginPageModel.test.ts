@@ -1,10 +1,10 @@
 import { expect, it } from 'vitest';
-import loginPageModel from 'src/pages/Login/LoginPageModel';
-import { LoginRequest } from 'src/models/LoginRequest';
-import { registerLoginService } from 'src/DIContainer/LoginContainer';
+import loginPageModel from 'src/Feature/Login/Presentation/LoginPageModel';
+import { LoginRequest } from 'src/Domain/Login/LoginRequest';
+import { LoginUseCase } from 'src/Domain/Login/LoginUseCase';
 
 it('when initialized, form is in expected (initial) state', () => {
-  const sut = loginPageModel();
+  const sut = loginPageModel(makeAnyLoginUseCaseMock());
 
   expect(sut.state.email).toBeFalsy;
   expect(sut.state.isEmailValid).toBe(false);
@@ -23,7 +23,7 @@ const anyInvalidPassword = '';
 const anyValidPassword = 'abc@@';
 
 it('when email value changes, email is validated', () => {
-  const sut = loginPageModel();
+  const sut = loginPageModel(makeAnyLoginUseCaseMock());
 
   simulateEmailEntry(sut, anyInvalidEmail);
   expect(sut.state.isEmailValid).toBe(false);
@@ -36,7 +36,7 @@ it('when email value changes, email is validated', () => {
 });
 
 it('when password value changes, password is validated', () => {
-  const sut = loginPageModel();
+  const sut = loginPageModel(makeAnyLoginUseCaseMock());
 
   simulatePasswordEntry(sut, anyInvalidPassword);
   expect(sut.state.isPasswordValid).toBe(false);
@@ -49,7 +49,7 @@ it('when password value changes, password is validated', () => {
 });
 
 it('form can only be submitted if all fields are valid', () => {
-  const sut = loginPageModel();
+  const sut = loginPageModel(makeAnyLoginUseCaseMock());
 
   simulateEmailEntry(sut, anyValidEmail);
   expect(sut.state.canSubmit).toBe(false);
@@ -68,7 +68,7 @@ it('form can only be submitted if all fields are valid', () => {
 });
 
 it('on toggle hide password, updates password visibility mode', () => {
-  const sut = loginPageModel();
+  const sut = loginPageModel(makeAnyLoginUseCaseMock());
 
   expect(sut.state.hidePassword).toBe(true);
   sut.toggleHidePassword();
@@ -78,13 +78,14 @@ it('on toggle hide password, updates password visibility mode', () => {
 });
 
 it('on submit with completed form, login service is invoked', async () => {
-  const spy = new LoginServiceSpy();
-  mockLoginService(spy);
+  const spy = new LoginUseCaseSpy(() => {
+    return Promise.resolve();
+  });
 
   const email = 'test@dot.com';
   const password = 'test_password';
 
-  const sut = loginPageModel();
+  const sut = loginPageModel(spy);
   simulateEmailEntry(sut, email);
   simulatePasswordEntry(sut, password);
   await sut.submit();
@@ -97,13 +98,14 @@ it('on submit with completed form, login service is invoked', async () => {
 });
 
 it('isLoading state changnes as login is performed', async () => {
-  const sut = loginPageModel();
-  const loginServicePromise: Promise<void> = new Promise((resolve) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, prefer-const
+  let sut: any;
+  const spy = new LoginUseCaseSpy(() => {
     expect(sut.state.isLoggingIn).toBe(true);
-    resolve();
+    return Promise.resolve();
   });
-  mockLoginServiceWithPromise(loginServicePromise);
 
+  sut = loginPageModel(spy);
   const email = 'test@dot.com';
   const password = 'test_password';
 
@@ -116,9 +118,12 @@ it('isLoading state changnes as login is performed', async () => {
 });
 
 it('on successful login, submit is disabled', async () => {
-  const sut = loginPageModel();
+  const spy = new LoginUseCaseSpy(() => {
+    return Promise.resolve();
+  });
 
-  registerLoginService(() => Promise.resolve());
+  const sut = loginPageModel(spy);
+
   simulateEmailEntry(sut, anyValidEmail);
   simulatePasswordEntry(sut, anyValidPassword);
   await sut.submit();
@@ -129,9 +134,12 @@ it('on successful login, submit is disabled', async () => {
 
 it('on failed login, error is shown', async () => {
   const loginError = Error('Mock Error');
-  const sut = loginPageModel();
+  const spy = new LoginUseCaseSpy(() => {
+    return Promise.reject(loginError);
+  });
 
-  registerLoginService(() => Promise.reject(loginError));
+  const sut = loginPageModel(spy);
+
   simulateEmailEntry(sut, anyValidEmail);
   simulatePasswordEntry(sut, anyValidPassword);
   await sut.submit();
@@ -154,21 +162,23 @@ function simulatePasswordEntry(sut: any, value: string) {
 
 // - MARK: Login Service Mock
 
-class LoginServiceSpy {
+function makeAnyLoginUseCaseMock(): LoginUseCase {
+  const anyError = Error('Any Mock Error');
+  return new LoginUseCaseSpy(() => {
+    return Promise.reject(anyError);
+  });
+}
+
+class LoginUseCaseSpy implements LoginUseCase {
   receivedRequests: LoginRequest[] = [];
-}
+  action: () => Promise<void>;
 
-function mockLoginService(spy: LoginServiceSpy) {
-  async function loginServiceSpy(request: LoginRequest) {
-    spy.receivedRequests.push(request);
+  constructor(action: () => Promise<void>) {
+    this.action = action;
   }
-  registerLoginService(loginServiceSpy);
-}
 
-function mockLoginServiceWithPromise(promise: Promise<void>) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async function loginServiceSpy(request: LoginRequest) {
-    await promise;
+  async invoke(request: LoginRequest): Promise<void> {
+    this.receivedRequests.push(request);
+    await this.action();
   }
-  registerLoginService(loginServiceSpy);
 }

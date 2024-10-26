@@ -5,5 +5,5 @@
 </template>
 
 <script setup>
-import SignUp from 'src/feature/signUp/SignUp.vue';
+import SignUp from 'src/Feature/signUp/SignUp.vue';
 </script>

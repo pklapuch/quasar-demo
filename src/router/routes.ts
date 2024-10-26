@@ -26,7 +26,7 @@ function createRootSubRoute(): RouteRecordRaw {
 function createLoginSubRoute(): RouteRecordRaw {
   return {
     path: '/login',
-    component: () => import('pages/Login/LoginPage.vue'),
+    component: () => import('src/Feature/Login/View/LoginPage.vue'),
   };
 }
 

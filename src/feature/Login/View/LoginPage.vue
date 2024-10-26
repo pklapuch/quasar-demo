@@ -75,6 +75,11 @@
 </style>
 
 <script lang="ts" setup>
-import loginPageModel from './LoginPageModel';
-const pageModel = loginPageModel();
+import { inject } from 'vue';
+import loginPageModel from 'src/Feature/Login/Presentation/LoginPageModel';
+import { LoginUseCase } from 'src/Domain/Login/LoginUseCase';
+import { loginUseCaseKey } from 'src/Domain/Login/LoginDependencies';
+
+const loginUseCase = inject(loginUseCaseKey) as LoginUseCase;
+const pageModel = loginPageModel(loginUseCase);
 </script>
