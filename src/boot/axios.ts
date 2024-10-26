@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
-import configureAxiosService from 'src/services/ConfigureAxiosService';
+import configureAxiosService from 'src/Infrastructure/Network/ConfigureAxiosService';
 
 declare module 'vue' {
   interface ComponentCustomProperties {

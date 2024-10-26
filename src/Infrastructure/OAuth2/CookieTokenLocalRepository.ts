@@ -1,6 +1,6 @@
 import { LoginResponse } from 'src/Domain/Login/LoginResponse';
-import { TokenLocalRepository } from '../../Domain/Shared/TokenLocalRepository';
-import { setCookie, getCookie } from 'src/services/CookieUtil';
+import { TokenLocalRepository } from 'src/Domain/Shared/TokenLocalRepository';
+import { setCookie, getCookie } from 'src/Infrastructure/OAuth2/CookieUtil';
 
 /// Represents production-grade repository (cookies - invoking this repository will trigger calls to local storage)
 export class CookieTokenLocalRepository implements TokenLocalRepository {

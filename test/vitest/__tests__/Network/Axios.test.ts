@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 import MockAdapter from 'axios-mock-adapter';
-import configureAxiosService from 'src/services/ConfigureAxiosService';
+import configureAxiosService from 'src/Infrastructure/Network/ConfigureAxiosService';
 
 it('when initialized, form is in expected (initial) state', async () => {
   const sut = configureAxiosService().invoke();
