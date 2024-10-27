@@ -75,10 +75,6 @@
 </style>
 
 <script lang="ts" setup>
-import loginPageModel from 'src/Feature/Login/Presentation/LoginPageModel';
-import { loginUseCaseKey } from 'src/Domain/Login/LoginDependencies';
-import { loginContainer } from 'src/Domain/Login/LoginDependencies';
-
-const loginUseCase = loginContainer.resolve(loginUseCaseKey);
-const pageModel = loginPageModel(loginUseCase!);
+import loginComposer from '../Composer/LoginComposer';
+const pageModel = loginComposer().makePageModel();
 </script>

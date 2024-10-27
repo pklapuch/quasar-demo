@@ -12,6 +12,7 @@ import {
   sharedContainer,
   tokenLocalRepositoryKey,
 } from 'src/Domain/Shared/SharedDependencies';
+import { LoginUseCaseErrorMapperDecorator } from './LoginUseCaseErrorMapperDecorator';
 
 export function registerLoginDependencies(router: Router) {
   registerLoginRemoteRepository();
@@ -41,6 +42,13 @@ function registerLoginUseCase(router: Router) {
       tokenLocalRepository
     );
 
-    return new LoginAndNavigateToHomeUseCaseDecorator(loginUseCase, router);
+    const loginUseCaseErrorMapper = new LoginUseCaseErrorMapperDecorator(
+      loginUseCase
+    );
+
+    return new LoginAndNavigateToHomeUseCaseDecorator(
+      loginUseCaseErrorMapper,
+      router
+    );
   });
 }
